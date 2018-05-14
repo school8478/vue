@@ -1,60 +1,54 @@
+<!-- 슬롯의 기본 사용법 -->
+
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
+    <speech-box v-bind:headerText="A.header" v-bind:footerText="A.footer">
+      <div>
+        <p>
+          {{A.message}}
+        </p>
+      </div>
+    </speech-box>
+
+    <speech-box class="sanders" v-bind:headerText="B.header" v-bind:footerText="B.footer">
+      <div>
+        <p class="sanders-content">
+          {{B.message}}
+        </p>
+      </div>
+    </speech-box>
   </div>
 </template>
 
 <script>
+import SpeechBox from "./components/SpeechBox.vue";
+
 export default {
-  name: 'app',
-  data () {
+  name: "app",
+  components : {SpeechBox},
+  data : function() {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      A : {
+        header : "오바마 대통령 고별 연설문",
+        footer : "2017.01.10 - 시카고",
+        message :`저의 동료 국민 여러분, 미셀과 저는 지난 몇 주간 우리가 받은 모든 축복의 인사에 너무 감동받았습니다. 하지만 오늘 밤은 제가 감사의 인사를 할 차례입니다. 우리가 의견을 같이 했거나 혹은 거의 생각이 일치하지 않았든 미국 국민 여러분과의 대화는, 거실이든 학교든 농장이든 공장 바닥이든, 식당이든 먼 군사 전초 기지이든 이런 대화는 저를 정직하게 해주며 영감을 주었고 제가 계속 전진하도록 했습니다.`
+      },
+      B : {
+        header : "버니샌더스 경선 패배 연설문",
+        footer : "2016.07.25 - 필라델피아 웰스파고",
+        message :`감사합니다. 여러분 정말 감사합니다. 오늘밤 이 자리에 서게 돼 영광입니다. 제 훌륭한 친구인 엘리지베스 워렌의 다음 순서에 발언할 수 있어서, 그리고 미셸 오바마의 놀라운 업적을 축하할 기회를 얻게 돼서 또 한번 영광이라고 생각합니다. 미셸은 우리 모두가 자랑스러움을 느끼도록 해주었습니다.`
+      }
     }
   }
-}
+};
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style scoped>
+.sanders {
+  background-color:#faebd7;
 }
-
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
+.sanders-content {
+  font-family:굴림;
+  text-decoration:underline;
 }
 </style>
