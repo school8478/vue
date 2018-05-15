@@ -39,7 +39,7 @@
 </template>
 
 <script>
-    import axios from "axios";
+    //import axios from "axios";
 
     export default {
         name : "app",
@@ -55,7 +55,7 @@
         methods : {
             /* 1페이지 연락처 조회 스크립트 */
             fetchContacts : function() {
-                axios({
+                this.$axios({
                     method : "GET",
                     url : "/api/contacts",
                     params : {
@@ -71,7 +71,7 @@
             },
             /* 연락처 한건 추가 스크립트 */
             addContact : function() {
-                axios.post("/api/contacts", {name:this.name, tel:this.tel, address:this.address}).then((response) => {
+                this.$axios.post("/api/contacts", {name:this.name, tel:this.tel, address:this.address}).then((response) => {
                     console.log(response);
                     this.result = response.data;
                     this.no = response.data.no;
@@ -81,13 +81,13 @@
             },
             /* 연락처 한건 조회 스크립트 */
             fetchContactOne : function() {
-                axios.get("/api/contacts/" + this.no).then((response) => {
+                this.$axios.get("/api/contacts/" + this.no).then((response) => {
                     console.log(response);
                     this.result = response.data;
                 })
             },
             updateContact : function() {
-                axios.put("/api/contacts/" + this.no, {name:this.name, tel:this.tel, address:this.address}).then((response) => {
+                this.$axios.put("/api/contacts/" + this.no, {name:this.name, tel:this.tel, address:this.address}).then((response) => {
                     console.log(response);
                     this.name = "";
                     this.tel = "";
@@ -98,7 +98,7 @@
                 })
             },
             deleteContact : function() {
-                axios.delete("/api/contacts/" + this.no).then((response) => {
+                this.$axios.delete("/api/contacts/" + this.no).then((response) => {
                     console.log(response);
                     this.no = 0;
                     this.result = response.data;
@@ -111,7 +111,7 @@
                 var file = this.$refs.photofile.files[0];
                 data.append("photo", file);
 
-                axios.post("/api/contacts/" + this.no + "/photo", data).then((response) => {
+                this.$axios.post("/api/contacts/" + this.no + "/photo", data).then((response) => {
                     this.result = response.data;
                 }).catch((ex) => {
                     console.log("updatePhoto failed : ", ex);
