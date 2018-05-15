@@ -7,7 +7,7 @@ var cors = require('cors');
 //var fs = require('fs');
 //var rfs = require('rotating-file-stream');
 
-app.use(cors());
+//app.use(cors());
 app.enable("jsonp callback");   //jsonp 지원
 //-- 로깅
 /**
