@@ -51,28 +51,28 @@ export default {
     },
     mounted : function() {
         this.fetchContacts();
-        eventBus.$on("cancel", () => {
+        EventBus.$on("cancel", () => {
             this.currentView = null;
         });
-        eventBus.$on("addSubmit", () => {
+        EventBus.$on("addSubmit", () => {
             this.currentView = null;
             this.addContact(contact);
         });
-        eventBus.$on("updateSubmit", () => {
+        EventBus.$on("updateSubmit", () => {
             this.currentView = null;
             this.updateContact(contact);
         });
-        eventBus.$on("addContactForm", () => {
+        EventBus.$on("addContactForm", () => {
             this.currentView = "addContact";
         });
-        eventBus.$on("editContactForm", (no) => {
+        EventBus.$on("editContactForm", (no) => {
             this.fetchContactOne(no);
             this.currentView = "updateContact";
         });
-        eventBus.$on("deleteContact", (no) => {
+        EventBus.$on("deleteContact", (no) => {
             this.deleteContact(no);
         });
-        eventBus.$on("editPhoto", (no) => {
+        EventBus.$on("editPhoto", (no) => {
             if (typeof file !== "undefined") {
                 this.updatePhoto(no, file);
             }
