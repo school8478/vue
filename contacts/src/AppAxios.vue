@@ -53,42 +53,76 @@
             }
         },
         methods : {
+            /* 1페이지 연락처 조회 스크립트 */
             fetchContacts : function() {
                 axios({
                     method : "GET",
                     url : "/api/contacts",
                     params : {
                         pageno : 1,
-                        pagesize: 5
+                        pagesize : 5
                     }
                 }).then((response) => {
                     console.log(response);
                     this.result = response.data;
                 }).catch((ex) => {
-                    console.log("ERROP!!!! : ", ex);
+                    console.log("ERROR!!!! : ", ex);
                 })
             },
+            /* 연락처 한건 추가 스크립트 */
             addContact : function() {
-
+                axios.post("/api/contacts", {name:this.name, tel:this.tel, address:this.address}).then((response) => {
+                    console.log(response);
+                    this.result = response.data;
+                    this.no = response.data.no;
+                }).catch((ex) => {
+                    console.log("ERROR!!!! : ", ex);
+                })
             },
+            /* 연락처 한건 조회 스크립트 */
             fetchContactOne : function() {
-
+                axios.get("/api/contacts/" + this.no).then((response) => {
+                    console.log(response);
+                    this.result = response.data;
+                })
             },
             updateContact : function() {
-
+                axios.put("/api/contacts/" + this.no, {name:this.name, tel:this.tel, address:this.address}).then((response) => {
+                    console.log(response);
+                    this.name = "";
+                    this.tel = "";
+                    this.address = "";
+                    this.result = response.data;
+                }).catch((ex) => {
+                    console.log("ERROR!!!! : ", ex);
+                })
             },
             deleteContact : function() {
-
+                axios.delete("/api/contacts/" + this.no).then((response) => {
+                    console.log(response);
+                    this.no = 0;
+                    this.result = response.data;
+                }).catch((ex) => {
+                    console.log("ERROR!!!! : ", ex);
+                })
             },
             changePhoto : function() {
+                var data = new FormData();
+                var file = this.$refs.photofile.files[0];
+                data.append("photo", file);
 
+                axios.post("/api/contacts/" + this.no + "/photo", data).then((response) => {
+                    this.result = response.data;
+                }).catch((ex) => {
+                    console.log("updatePhoto failed : ", ex);
+                })
             }
-        }
+        }  
     }
 </script>
 
 <style>
-    @import url(http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.css);
+    @import url(https://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.css);
     #app {
         font-family: "Avenir", Helvetica, Arial, sans-serif;
         -webkit-font-smoothing:antialiased;
