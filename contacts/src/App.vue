@@ -54,11 +54,11 @@ export default {
         EventBus.$on("cancel", () => {
             this.currentView = null;
         });
-        EventBus.$on("addSubmit", () => {
+        EventBus.$on("addSubmit", (contact) => {
             this.currentView = null;
             this.addContact(contact);
         });
-        EventBus.$on("updateSubmit", () => {
+        EventBus.$on("updateSubmit", (contact) => {
             this.currentView = null;
             this.updateContact(contact);
         });
@@ -73,6 +73,10 @@ export default {
             this.deleteContact(no);
         });
         EventBus.$on("editPhoto", (no) => {
+            this.fetchContactOne(no);
+            this.currentView = "updatePhoto";
+        });
+        EventBus.$on("updatePhoto", (no, file) => {
             if (typeof file !== "undefined") {
                 this.updatePhoto(no, file);
             }

@@ -42,7 +42,7 @@
                 EventBus.$emit("addContactForm");
             },
             editContact : function(no) {
-                EventBus.$emit("editContatctForm", no);
+                EventBus.$emit("editContactForm", no);
             },
             deleteContact : function(no) {
                 if (confirm("정말로 삭제하시겠습니까?") == true) {
@@ -56,7 +56,7 @@
     }
 </script>
 
-<style>
+<style scoped>
     .addnew {
         margin:10px auto;
         max-width:820px;
