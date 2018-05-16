@@ -6,7 +6,7 @@
     </div>
     <component v-bind:is="currentView" v-bind:contact="contact"></component>
     <contactList v-bind:contactlist="contactlist"></contactList>
-    <paginate ref="pagebuttons" v-bind:page-count="totalpage" v-bind:page-range="5" v-bind:margin-pages="2" v-bind:click-handler="pageChanged" v-bind:prev-text="'<'" v-bind:next-text="'>'" v-bind:container-class="'pagination'" v-bind:page-class="'page-item'"></paginate>
+    <paginate ref="pagebuttons" v-bind:page-count="totalpage" v-bind:page-range="5" v-bind:margin-pages="0" v-bind:click-handler="pageChanged" v-bind:prev-text="'<'" v-bind:next-text="'>'" v-bind:container-class="'pagination'" v-bind:page-class="'page-item'"></paginate>
   </div>
 </template>
 
@@ -24,7 +24,7 @@ import Paginate from 'vuejs-paginate';
 
 export default {
     name : 'app',
-        components : {
+    components : {
         ContactList,
         AddContact,
         UpdateContact,
@@ -81,7 +81,7 @@ export default {
     },
     computed : {
         totalpage : function() {
-            return Nath.floor((this.contactlist.totalcount - 1) / this.contactlist.pagesize) + 1;
+            return Math.floor((this.contactlist.totalcount - 1) / this.contactlist.pagesize) + 1;
         }
     },
     methods : {
@@ -91,14 +91,14 @@ export default {
         },
         fetchContacts : function() {
             this.$axios.get(CONF.FETCH, {
-                param : {
+                params : {
                     pageno : this.contactlist.pageno,
-                    pagesize:this.contactlist.pagesize
+                    pagesize : this.contactlist.pagesize
                 }
             }).then((response) => {
                 this.contactlist = response.data;
             }).catch((ex) => {
-                contsole.log("fetchContacts failed", ex);
+                console.log("fetchContacts failed", ex);
                 this.contactlist.contacts =[];
             })
         },
@@ -113,6 +113,8 @@ export default {
         updateContact : function(contact) {
             this.$axios.put(CONF.UPDATE.replace("${no}", contact.no), contact).then((response) => {
                 this.fetchContacts();
+            }).catch((ex) => {
+                console.log("updateContact failed : ", ex);
             })
         },
         fetchContactOne : function(no) {
@@ -125,6 +127,8 @@ export default {
         deleteContact : function(no) {
             this.$axios.delete(CONF.DELETE.replace("${no}", no)).then((response) => {
                 this.fetchContacts();
+            }).catch((ex) => {
+                console.log("deleteContact failed", ex);
             })
         },
         updatePhoto : function(no, file) {
