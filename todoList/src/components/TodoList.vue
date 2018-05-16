@@ -28,6 +28,7 @@
 <script>
     import InputTodo from "./InputTodo.vue";
     import List from "./List.vue";
+    
     export default {
         name : "todo-list",
         components : {InputTodo, List}

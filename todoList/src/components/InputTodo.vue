@@ -35,6 +35,7 @@
 </template>
 
 <script>
+/*
 import eventBus from "./EventBus.vue";
 
 export default {
@@ -45,6 +46,21 @@ export default {
     methods : {
         addTodo : function() {
             eventBus.$emit("add-todo", this.todo);
+            this.todo = "";
+        }
+    }
+}
+*/
+import Constant from "../constant";
+
+export default {
+    name : "input-todo",
+    data : function() {
+        return { todo : "" };
+    },
+    methods : {
+        addTodo : function() {
+            this.$store.commit(Constant.ADD_TODO, {todo : this.todo});
             this.todo = "";
         }
     }

@@ -61,6 +61,54 @@
 </template>
 
 <script>
+/*
+import Constant from "../constant";
+import {mapState, mapMutations} from "vuex";
+import _ from "lodash";
+
+export default {    
+    computed : mapState(["todolist"]),
+    methods : _.extend({
+        checked(done) {
+            if(done) {
+                return {checked : true};
+            } else {
+                return {checked : false};
+            }
+        },
+        mapMutations([
+            Constant.DELETE_TODO,
+            Constant.DONE_TOGGLE
+        ])
+    )
+}
+*/
+
+import Constant from "../constant";
+
+export default {    
+    computed : {
+        todolist() {
+            return this.$store.state.todolist;
+        }
+    },
+    methods : {
+        checked : function(done) {
+            if(done) {
+                return {checked : true};
+            } else {
+                return {checked : false};
+            }
+        },
+        deleteTodo : function(index) {
+            this.$store.commit(Constant.DELETE_TODO, {index : index});
+        },
+        doneToggle : function(index) {
+            this.$store.commit(Constant.DONE_TOGGLE, {index : index});
+        }
+    }
+}
+/*
 import eventBus from "./EventBus.vue";
 
 export default {
@@ -98,4 +146,5 @@ export default {
         }
     }
 }
+*/
 </script>
