@@ -52,99 +52,111 @@
 
 <template>
     <ul id="todoList">
-        <li v-for="(a, index) in todolist" v-bind:class="checked(a.done)" v-on:click="doneToggle(index)">
+        <!--<li v-for="(a, index) in todolist" v-bind:class="checked(a.done)" v-on:click="doneToggle(index)">-->
+        <li v-for="(a, index) in todolist" v-bind:class="checked(a.done)" v-on:click="doneToggle({index:index})">
             <span>{{a.todo}}</span>
             <span v-if="a.done">(완료)</span>
-            <span class="close" v-on:click.stop="deleteTodo(index)">&#x00D7;</span>
+            <!--<span class="close" v-on:click.stop="deleteTodo(index)">&#x00D7;</span>-->
+            <span class="close" v-on:click.stop="deleteTodo({index:index})">&#x00D7;</span>
         </li>
     </ul>
 </template>
 
 <script>
-/*
-import Constant from "../constant";
-import {mapState, mapMutations} from "vuex";
-import _ from "lodash";
+    import Constant from "../constant"
+    import {mapState, mapMutations} from "vuex"
+    import _ from "lodash";
 
-export default {    
-    computed : mapState(["todolist"]),
-    methods : _.extend({
-        checked(done) {
-            if(done) {
-                return {checked : true};
-            } else {
-                return {checked : false};
+    export default {    
+        /*computed : mapState(["todolist"]),*/
+        /* 계산형 속성명 */
+        computed : mapState({
+            todolist : (state) => state.todolist
+        }),
+        methods : _.extend({
+                checked(done) {
+                    if(done) {
+                        return {checked : true};
+                    } else {
+                        return {checked : false};
+                    }
+                }
+            },
+            /*
+            mapMutations([
+                Constant.DELETE_TODO,
+                Constant.DONE_TOGGLE
+            ])
+            */
+            mapMutations({
+                deleteTodo : Constant.DELETE_TODO,
+                doneToggle : Constant.DONE_TOGGLE
+            })
+        )
+    }
+
+    /*
+    import Constant from "../constant";
+
+    export default {    
+        computed : {
+            todolist() {
+                return this.$store.state.todolist;
             }
         },
-        mapMutations([
-            Constant.DELETE_TODO,
-            Constant.DONE_TOGGLE
-        ])
-    )
-}
-*/
-
-import Constant from "../constant";
-
-export default {    
-    computed : {
-        todolist() {
-            return this.$store.state.todolist;
-        }
-    },
-    methods : {
-        checked : function(done) {
-            if(done) {
-                return {checked : true};
-            } else {
-                return {checked : false};
+        methods : {
+            checked : function(done) {
+                if(done) {
+                    return {checked : true};
+                } else {
+                    return {checked : false};
+                }
+            },
+            deleteTodo : function(index) {
+                this.$store.commit(Constant.DELETE_TODO, {index : index});
+            },
+            doneToggle : function(index) {
+                this.$store.commit(Constant.DONE_TOGGLE, {index : index});
             }
-        },
-        deleteTodo : function(index) {
-            this.$store.commit(Constant.DELETE_TODO, {index : index});
-        },
-        doneToggle : function(index) {
-            this.$store.commit(Constant.DONE_TOGGLE, {index : index});
         }
     }
-}
-/*
-import eventBus from "./EventBus.vue";
 
-export default {
-    created : function() {
-        eventBus.$on("add-todo", this.addTodo);
-    },
-    data  : function() {
-        return {
-            todolist : [
-                { todo : "영화보기", done : false },
-                { todo : "주말산책", done : true },
-                { todo : "ES6학습", done : false },
-                { todo : "잠실야구장", done : false },
-            ]
-        }
-    },
-    methods : {
-        checked : function(done) {
-            if (done) {
-                return {checked : true};
-            } else {
-                return {checked :false};
+    import eventBus from "./EventBus.vue";
+
+    export default {
+        created : function() {
+            eventBus.$on("add-todo", this.addTodo);
+        },
+        data  : function() {
+            return {
+                todolist : [
+                    { todo : "영화보기", done : false },
+                    { todo : "주말산책", done : true },
+                    { todo : "ES6학습", done : false },
+                    { todo : "잠실야구장", done : false },
+                ]
             }
         },
-        addTodo : function(todo) {
-            if (todo !== "") {
-                this.todolist.push({todo : todo, done : false});
+        methods : {
+            checked : function(done) {
+                if (done) {
+                    return {checked : true};
+                } else {
+                    return {checked :false};
+                }
+            },
+            addTodo : function(todo) {
+                if (todo !== "") {
+                    this.todolist.push({todo : todo, done : false});
+                }
+            },
+            doneToggle : function(index) {
+                this.todolist[index].done = !this.todolist[index].done;
+            },
+            deleteTodo : function(index) {
+                this.todolist.splice(index, 1);
             }
-        },
-        doneToggle : function(index) {
-            this.todolist[index].done = !this.todolist[index].done;
-        },
-        deleteTodo : function(index) {
-            this.todolist.splice(index, 1);
         }
     }
-}
-*/
+    */
 </script>
