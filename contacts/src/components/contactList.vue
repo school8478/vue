@@ -32,25 +32,26 @@
 </template>
 
 <script>
-    import EventBus from "../eventBus";
+    import constant from "../constant";
+    import { mapState } from "vuex";
 
     export default {
         name : "contactList",
-        props : ["contactlist"],
+        computed : mapState(["contactlist"]),
         methods : {
             addContact : function() {
-                EventBus.$emit("addContactForm");
+                this.$store.dispatch(constant.ADD_CONTACT_FORM);
             },
             editContact : function(no) {
-                EventBus.$emit("editContactForm", no);
+                this.$store.dispatch(constant.EDIT_CONTACT_FORM, {no : no});
             },
             deleteContact : function(no) {
                 if (confirm("정말로 삭제하시겠습니까?") == true) {
-                    EventBus.$emit("deleteContact", no);
+                    this.$store.dispatch(constant.DELETE_CONTACT, {no : no});
                 }
             },
             editPhoto : function(no) {
-                EventBus.$emit("editPhoto", no);
+                this.$store.dispatch(constant.EDIT_PHOTO_FORM, {no : no});
             }
         }
     }

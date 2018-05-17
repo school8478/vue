@@ -28,57 +28,43 @@
 </template>
 
 <script>
-    import EventBus from "../eventBus.js";
+    import constant from "../constant";
+    import { mapState } from "vuex";
+    import _ from "lodash";
 
     export default {
         name : "contectForm",
-        props : {
-            mode : {
-                type : String,
-                default : "add"
-            },
-            contact : {
-                type : Object,
-                default : function() {
-                    return {
-                        no : "",
-                        name : "",
-                        tel : "",
-                        address : "",
-                        photo : ""
-                    };
+        computed : _.extend({
+                btnText : function() {
+                    if (this.mode != "update") {
+                        return "추 가";
+                    } else {
+                        return "수 정";
+                    }
+                },
+                headingText : function() {
+                    if (this.mode != "update") {
+                        return "새로운 연락처 추가";
+                    } else {
+                        return "연락처 변경";
+                    }
                 }
-            }
-        },
+            },
+            mapState([ "mode", "contact" ])
+        ),
         mounted : function() {
             this.$refs.name.focus();
-        },
-        computed : {
-            btnText : function() {
-                if (this.mode != "update") {
-                    return "추 가";
-                } else {
-                    return "수 정";
-                }
-            },
-            headingText : function() {
-                if (this.mode != "update") {
-                    return "새로운 연락처 추가";
-                } else {
-                    return "연락처 변경";
-                }
-            }
         },
         methods : {
             submitEvent : function() {
                 if (this.mode == "update") {
-                    EventBus.$emit("updateSubmit", this.contact);
+                    this.$store.dispatch(constant.UPDATE_CONTACT);
                 } else {
-                    EventBus.$emit("addSubmit", this.contact);
+                    this.$store.dispatch(constant.ADD_CONTACT);
                 }
             },
             cancelEvent : function() {
-                EventBus.$emit("cancel");
+                this.$store.dispatch(constant.CANCEL_FORM);
             }
         }
     }
