@@ -63,13 +63,39 @@
 </template>
 
 <script>
+    import Constant from "../constant";
+    import {mapState, mapActions} from "vuex";
+    import _ from "lodash";
+
+    export default {    
+        //computed : mapState(["todolist"]),
+        //계산형 속성명
+        computed : mapState({
+            todolist : (state) => state.todolist
+        }),
+        methods : _.extend({
+                checked : function(done) {
+                    if(done) {
+                        return {checked : true};
+                    } else {
+                        return {checked : false};
+                    }
+                }
+            },
+            mapActions([
+                Constant.DELETE_TODO,
+                Constant.DONE_TOGGLE
+            ])
+        )
+    }
+    /*
     import Constant from "../constant"
     import {mapState, mapMutations} from "vuex"
     import _ from "lodash";
 
     export default {    
-        /*computed : mapState(["todolist"]),*/
-        /* 계산형 속성명 */
+        //computed : mapState(["todolist"]),
+        //계산형 속성명
         computed : mapState({
             todolist : (state) => state.todolist
         }),
@@ -82,12 +108,11 @@
                     }
                 }
             },
-            /*
             mapMutations([
                 Constant.DELETE_TODO,
                 Constant.DONE_TOGGLE
-            ])
-            */
+            ]),
+            //계산형 속성명
             mapMutations({
                 deleteTodo : Constant.DELETE_TODO,
                 doneToggle : Constant.DONE_TOGGLE
@@ -95,7 +120,6 @@
         )
     }
 
-    /*
     import Constant from "../constant";
 
     export default {    
