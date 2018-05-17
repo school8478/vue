@@ -1,19 +1,3 @@
-<style scoped>
-    #list {
-        width:600px;
-        border:1px solid #000;
-        border-collapse:collapse;
-    }
-    #list td,
-    #list th {
-        border:1px solid #000;
-        text-align:center;
-    }
-    #list > thead > tr {
-        color: #ffff00;
-        background: #800080;
-    }
-</style>
 <template>
     <div>
         <table id="list">
@@ -42,6 +26,27 @@
 
     export default {
         name : "contact-list",
-        computed : mapState(["contacts"])
+        computed : {
+            contacts : function() {
+                return this.$store.state.m1.contacts;
+            }
+        }
     }
 </script>
+
+<style scoped>
+    #list {
+        width:600px;
+        border:1px solid #000;
+        border-collapse:collapse;
+    }
+    #list td,
+    #list th {
+        border:1px solid #000;
+        text-align:center;
+    }
+    #list > thead > tr {
+        color: #ffff00;
+        background: #800080;
+    }
+</style>

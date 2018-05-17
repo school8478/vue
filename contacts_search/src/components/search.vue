@@ -1,15 +1,27 @@
 <template>
-    <p>이름 : <input type="text" v-model.trim="name" placeholder="두글자 이상 입력후 엔터!" v-on:keyup.enter="keyupEvent" /></p>
+    <div>
+        <p>이름 : <input type="text" v-model.trim="name" placeholder="두글자 이상 입력후 엔터!" v-on:keyup.enter="keyupEvent" /></p>
+        <div>
+            <div>최근 검색이름 리스트 : </div>
+            <div class="box">
+                <div class="item" v-for="keyword in keywordlist">{{keyword}}</div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
     import Constant from "../constant";
+    import { mapState } from "vuex";
 
     export default {
         name : "search",
         data : function() {
             return {name : ""};
         },
+        computed : mapState([
+            'keywordlist'
+        ]),
         methods : {
             keyupEvent : function(e) {
                 var val = e.target.value;
@@ -24,3 +36,14 @@
         }
     }
 </script>
+
+<style scoped>
+div.box {
+    width:200px;
+    height:100px;
+    overflow:auto;
+    border:solid 1px #bbb;
+    margin:5px 0px;
+}
+div.item { padding:3px; }
+</style>
