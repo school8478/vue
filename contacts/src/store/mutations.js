@@ -6,19 +6,19 @@ export default {
         state.mode = "add";
         state.currentView = "contactForm";
     },
-    [Constant.CANCEL_FORM] : (state) => {
+    [constant.CANCEL_FORM] : (state) => {
         state.currentView = null;
     },
-    [Constant.EDIT_CONTACT_FORM] : (state, payload) => {
+    [constant.EDIT_CONTACT_FORM] : (state, payload) => {
         state.contact = payload.contact;
         state.mode = "update";
         state.currentView = "contactForm";
     },
-    [Constant.EDIT_PHOTO_FORM] : (state, payload) => {
+    [constant.EDIT_PHOTO_FORM] : (state, payload) => {
         state.contact = payload.contact;
         stacte.currentView = "updatePhoto";
     },
-    [Constant.FETCH_CONTACTS] : (state, payload) => {
+    [constant.FETCH_CONTACTS] : (state, payload) => {
         state.contactlist = payload.contactlist;
     }
 }
