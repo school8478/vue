@@ -28,7 +28,7 @@
 
     export default {
         name : "updatePhoto",
-        computed : mapState(["constact"]),
+        computed : mapState(["contact"]),
         methods : {
             cancelEvent : function() {
                 this.$store.dispatch(constant.CANCEL_FORM);

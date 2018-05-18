@@ -16,8 +16,8 @@ import contactForm from './components/contactForm';
 import updatePhoto from './components/updatePhoto';
 
 import CONF from './config.js';
-import paginate from 'vuejs-paginate';
 import constant from './constant';
+import paginate from 'vuejs-paginate';
 import _ from 'lodash';
 import { mapState } from 'vuex';
 
