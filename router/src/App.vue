@@ -1,60 +1,95 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
+  <div>
+    <div class="header">
+      <h1 class="headerText">(주)OpenSG</h1>
+      <nav>
+        <ul>
+          <li><router-link v-bind:to="{name : 'home'}">Home</router-link></li>
+          <li><router-link v-bind:to="{name : 'about'}">About</router-link></li>
+          <li><router-link v-bind:to="{name : 'contacts'}">Contacts</router-link></li>
+        </ul>
+      </nav>
+    </div>
+    <div id="container">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'app',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
-    }
+  import home from "./components/home.vue";
+  import about from "./components/about.vue";
+  import contacts from "./components/contacts.vue";
+  import contactByNo from "./components/contactByNo.vue";
+  import notFound from "./components/notFound";
+  import vueRouter from "vue-router";
+  
+  function connectQueryToProp(route) {
+    return {no : route.query.no, path : route.path};
   }
-}
+
+  const router = new vueRouter({
+    mode : "history",
+    routes : [
+      {path : "/", component : home},
+      {path : "/home", name : "home", component : home},
+      {path : "/about", name : "about", component : about},
+      {
+        path : "/contacts", name : "contacts", component : contacts,
+        children : [
+          {
+            path : ":no", name : "contactbyno", component : contactByNo, props : true,
+            beforeEnter : (to, from, next) => {
+              console.log("@@ beforeEnter! : " + from.path + "-->" + to.path);
+              if (from.path.startsWith("/contacts")) {
+                next();
+              } else {
+                next("/home");
+              }
+            }
+          }
+        ]
+      },
+      {path : "/contactbyno", component : contactByNo, props : connectQueryToProp},
+      {path : "*", component : notFound}
+    ]
+  });
+
+  export default {
+    name : "app",
+    router
+  }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+@import url("https://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.css");
+ 
+.header {
+  background-color:#00ffff;
+  padding:10px 0 0;
 }
-
-h1, h2 {
-  font-weight: normal;
+.headerText {
+  padding:0 20px;    
 }
-
 ul {
-  list-style-type: none;
-  padding: 0;
+  list-style-type:none;
+  margin:0;
+  padding:0;
+  overflow:hidden;
+  background-color:#800080;
 }
-
 li {
-  display: inline-block;
-  margin: 0 10px;
+  float:left;
 }
-
-a {
-  color: #42b983;
+li a {
+  display:block;
+  color:#ffff00;
+  text-align:center;
+  padding:14px 16px;
+  text-decoration:none;
+}
+li a:hover {
+  background-color:#00ffff;
+  color:#000;
 }
 </style>
