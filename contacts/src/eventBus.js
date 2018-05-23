@@ -1,6 +1,6 @@
-import Vue from "vue";
+import vue from "vue";
 
-var vm = new Vue({
+var vm = new vue({
     name : "EventBus"
 });
 

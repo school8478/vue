@@ -3,10 +3,10 @@
 </template>
 
 <script>
-    import ContactForm from "./contactForm.vue";
+    import contactForm from "./contactForm.vue";
 
     export default {
         name : "addContact",
-        components : {ContactForm}
+        components : {contactForm}
     }
 </script>

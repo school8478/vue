@@ -1,7 +1,8 @@
 <template>
     <div>
         <p class="addnew">
-            <button class="btn btn-primary" v-on:click="addContact()">새로운 연락처 추가하기</button>
+            <!--<button class="btn btn-primary" v-on:click="addContact()">새로운 연락처 추가하기</button>-->
+            <router-link class="btn btn-primary" v-bind:to="{name : 'addContact'}">새로운 연락처 추가하기</router-link>
         </p>
         <div id="example">
             <table id="list" class="table table-striped table-bordered table-hover">
@@ -28,30 +29,81 @@
                 </tbody>
             </table>
         </div>
+        <paginate ref="pagebuttons" v-bind:page-count="totalpage" v-bind:page-range="5" v-bind:margin-pages="0" v-bind:click-handler="pageChanged" v-bind:prev-text="'<'" v-bind:next-text="'>'" v-bind:container-class="'pagination'" v-bind:page-class="'page-item'"></paginate>
+        <router-view></router-view>
     </div>
 </template>
 
 <script>
     import constant from "../constant";
     import { mapState } from "vuex";
+    import paginate from "vuejs-paginate";
+    import _ from "lodash";
 
     export default {
         name : "contactList",
-        computed : mapState(["contactlist"]),
+        components : {paginate},
+        computed : _.extend(
+            {
+                totalpage : function() {
+                    var totalcount = this.contactlist.totalcount;
+                    var pagesize = this.contactlist.pagesize;
+                    return Math.floor((totalcount - 1) / pagesize) + 1;
+                }
+            },
+            mapState(["contactlist"])
+        ),
+        mounted : function() {
+            var page = 1;
+
+            if (this.$route.query && this.$route.query.page) {
+                page = parseInt(this.$route.query.page);
+            }
+            this.$store.dispatch(constant.FETCH_CONTACTS, {pageno : page}); 
+            this.$refs.pagebuttons.selected = page - 1;
+        },
+        watch : {
+            "$route" : function(to, from) {
+                if (to.query.page && to.query.page != this.contactlist.pageno) {
+                    var page = to.query.page;
+                    this.$store.dispatch(constant.FETCH_CONTACTS, {pageno : page}); 
+                    this.$refs.pagebuttons.selected = page - 1;
+                }
+            }
+            /*
+            ,
+            beforeRouteUpdate(to, from, next) {
+                if (to.query.page && to.query.page != this.contactlist.pageno) {
+                    var page = to.query.page;
+                    this.$store.dispatch(constant.FETCH_CONTACTS, {pageno : page}); 
+                    this.$refs.pagebuttons.selected = page - 1;
+                    next();
+                }
+            }
+            */
+        },
         methods : {
+            /*
             addContact : function() {
                 this.$store.dispatch(constant.ADD_CONTACT_FORM);
             },
+            */
+            pageChanged : function(page) {
+                this.$router.push({name : "contacts", query : {page : page}});
+            },
             editContact : function(no) {
-                this.$store.dispatch(constant.EDIT_CONTACT_FORM, {no : no});
+                //this.$store.dispatch(constant.EDIT_CONTACT_FORM, {no : no});
+                this.$router.push({name : "updateContact", params : {no : no}});
             },
             deleteContact : function(no) {
                 if (confirm("정말로 삭제하시겠습니까?") == true) {
                     this.$store.dispatch(constant.DELETE_CONTACT, {no : no});
+                    this.$router.push({name : "contacts"});
                 }
             },
             editPhoto : function(no) {
-                this.$store.dispatch(constant.EDIT_PHOTO_FORM, {no : no});
+                //this.$store.dispatch(constant.EDIT_PHOTO_FORM, {no : no});
+                this.$router.push({name : "updatePhoto", params : {no : no}});
             }
         }
     }

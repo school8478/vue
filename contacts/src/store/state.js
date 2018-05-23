@@ -2,8 +2,8 @@ import constant from "../constant";
 import CONF from "../config.js";
 
 export default {
-    currentView : null,
-    mode : "add",
+    //currentView : null,
+    //mode : "add",
     contact : {
         no : 0,
         name : "",

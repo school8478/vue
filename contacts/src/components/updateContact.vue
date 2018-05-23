@@ -3,11 +3,11 @@
 </template>
 
 <script>
-    import ContactForm from "./contactForm.vue";
+    import contactForm from "./contactForm.vue";
 
     export default {
         name : "updateContact",
-        components : {ContactForm},
+        components : {contactForm},
         props : ["contact"]
     }
 </script>

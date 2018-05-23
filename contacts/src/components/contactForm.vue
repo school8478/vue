@@ -34,6 +34,10 @@
 
     export default {
         name : "contectForm",
+        data : function() {
+            return {mode : "add"}
+        },
+        props : ["no"],
         computed : _.extend({
                 btnText : function() {
                     if (this.mode != "update") {
@@ -50,21 +54,32 @@
                     }
                 }
             },
-            mapState([ "mode", "contact" ])
+            mapState([ "contact", "contactlist" ])
         ),
         mounted : function() {
             this.$refs.name.focus();
+            var cr = this.$router.currentRoute;
+            if (cr.fullPath.indexOf("/add") > -1) {
+                this.mode = "add";
+                this.$store.dispatch(constant.INTIALIZE_CONTACT_ONE);
+            } else if (cr.fullPath.indexOf("/update") > -1) {
+                this.mode = "update";
+                this.$store.dispatch(constant.FETCH_CONTACT_ONE, {no : this.no});
+            }
         },
         methods : {
             submitEvent : function() {
                 if (this.mode == "update") {
                     this.$store.dispatch(constant.UPDATE_CONTACT);
+                    this.$router.push({name : "contacts", query : {page : this.contactlist.pageno}});
                 } else {
                     this.$store.dispatch(constant.ADD_CONTACT);
+                    this.$router.push({name : "contacts", query : {page : 1}});
                 }
             },
             cancelEvent : function() {
-                this.$store.dispatch(constant.CANCEL_FORM);
+                //this.$store.dispatch(constant.CANCEL_FORM);
+                this.$router.push({name : "contacts", query : {page : this.contactlist.pageno}});
             }
         }
     }
