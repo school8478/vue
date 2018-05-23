@@ -13,6 +13,7 @@ vue.use(vueRouter);
 vue.config.productionTip = false;
 
 const router = new vueRouter({
+  mode : 'history',
   routes : [
     {path : '/', redirect : '/home'},
     {path : '/home', name : 'home', component : home},

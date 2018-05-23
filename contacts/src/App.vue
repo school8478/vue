@@ -30,7 +30,6 @@
 //import { mapState } from 'vuex';
 
 export default {
-    mode : 'history',
     name : 'app'
     /*
     ,
